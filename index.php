@@ -1,3 +1,4 @@
 <?php 
+//use namespace/class.php
 
-echo 'I m on index.php!';
+require_once 'paramns.php';
