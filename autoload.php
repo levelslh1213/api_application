@@ -1,15 +1,16 @@
 <?php
 
 /**
- * @param $class
+ * AUTOLOAD DE CLASSES DENTRO DO PACOTE 'Classes'
+ * @param $classe
  */
-
-function autoload($class){
+function autoload($classe)
+{
     $diretorioBase = DIR_APP . DS;
-    $class = $diretorioBase . 'Classes' . DS . str_replace(search: '\\', replace: DS, $class) . '.php';
-    if(file_exists($class) && !id_dir($class)){
-        include $class
+    $classe = $diretorioBase . 'Classes' . DS . str_replace('\\', DS, $classe) . '.php';
+    if (file_exists($classe) && !is_dir($classe)) {
+        include $classe;
     }
 }
 
-spl_autoload_register(autoload_function 'autoload');
+spl_autoload_register('autoload');

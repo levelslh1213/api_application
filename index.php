@@ -1,4 +1,6 @@
 <?php 
-//use namespace/class.php
+use Validator\RequestValidator;
 
 require_once 'paramns.php';
+
+$requestValidator = new RequestValidator();
