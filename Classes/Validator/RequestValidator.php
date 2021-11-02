@@ -4,9 +4,15 @@ namespace Validator;
 
 class RequestValidator
 {
-    public function __construct()
+    private $request;
+
+    public function __construct($request)
     {
-        echo 'I am in RequestValidator';
+        $this->request = $request;
+    }
+
+    public function processarRequest(){
+        echo 'continua...';
     }
     
 }
