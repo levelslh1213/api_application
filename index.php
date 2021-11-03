@@ -2,6 +2,7 @@
 use Validator\RequestValidator;
 use Util\RotasUtil;
 
+echo '1';
 require_once 'paramns.php';
 
 try {
