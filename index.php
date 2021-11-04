@@ -2,14 +2,16 @@
 use Validator\RequestValidator;
 use Util\RotasUtil;
 
-echo '1';
 require_once 'paramns.php';
 
 try {
     $requestValidator = new RequestValidator(RotasUtil::getRotas());
     $retorno = $requestValidator->processarRequest();
 } catch (Exception $exception) {
-    echo $exception->getMessage();
+    echo json_encode([
+        ConstantesGenericasUtil::TIPO => ConstantesGenericasUtil::TIPO_ERRO,
+        ConstantesGenericasUtil::RESPOSTA => utf8_encode($exception->getMessage());
+    ])
 }
 
 

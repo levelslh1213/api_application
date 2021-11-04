@@ -3,11 +3,12 @@ namespace Validator;
 
 use Util\ConstantesGenericasUtil;
 use Util\JsonUtil;
+use InvalidArgumentException;
 use Repository\TokensAutorizadosRepository;
 
 class RequestValidator
 {
-    private $request;
+    private array $request;
     private array $dadosRequest = [];
     private object $TokensAutorizadosRepository;
 
@@ -24,7 +25,6 @@ class RequestValidator
      * @return string
      */
     public function processarRequest(){
-        //echo '6';
         $retorno = utf8_encode(ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA);
         
         if(in_array($this->request['metodo'], ConstantesGenericasUtil::TIPO_REQUEST, true)){
@@ -38,6 +38,7 @@ class RequestValidator
         if($this->request['metodo'] !== self::GET && $this->request['metodo'] !== self::DELETE){
             $this->dadosRequest = JsonUtil::tratarCorpoRequisicaoJson();
         }
-
+        //na API final criar uma classe para validar os tokens e validar os hosts, também tratar o Json e destinos
+        $this->TokensAutorizadosRepository->validarToken(getallheaders()['Authorization']);
     }
 }
