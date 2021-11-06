@@ -52,7 +52,7 @@ class RequestValidator
             switch($this->request['rota']){
                 case self::USUARIOS:
                     $UsuariosService = new UsuariosService($this->request);
-                    $return = $UsuariosService->validarGet();
+                    $retorno = $UsuariosService->validarGet();
                 break;
                 default:
                     throw InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);

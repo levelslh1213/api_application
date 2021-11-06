@@ -6,7 +6,7 @@ use Util\ConstantesGenericasUtil;
 
 class  JsonUtil
 {
-    public function processarArrayParaRetornar($retorno){
+    public function processarArrayRetorno($retorno){
         $dados = [];
         $dados[ConstantesGenericasUtil::TIPO] = ConstantesGenericasUtil::TIPO_ERRO;
 
@@ -14,7 +14,6 @@ class  JsonUtil
             $dados = [ConstantesGenericasUtil::TIPO] = ConstantesGenericasUtil::TIPO_SUCESSO;
             $dados = [ConstantesGenericasUtil::RESPOSTA] = $retorno;
         }
-        echo'chegou aqui';
         $this->retornarJson($dados);
     }
 

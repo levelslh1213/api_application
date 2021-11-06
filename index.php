@@ -10,8 +10,8 @@ try {
     $requestValidator = new RequestValidator(RotasUtil::getRotas());
     $retorno = $requestValidator->processarRequest();
 
-    $JsonUtil = new JsonUtil();
-    $JsonUtil->processarArrayParaRetornar($retorno);
+    $JsonProcessing = new JsonUtil();
+    $JsonProcessing->processarArrayRetorno($retorno);
     
 } catch (Exception $exception) {
     echo json_encode([

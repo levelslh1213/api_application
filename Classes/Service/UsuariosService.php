@@ -29,6 +29,7 @@ class UsuariosService
         else{
             throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
         }
+
         if($return == null){
             throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_GENERICO);
         }
@@ -36,10 +37,10 @@ class UsuariosService
     }
 
     private function getOneByKey(){
-        $this->UsuariosRepository->getPostgres()->getOneByKey(self::TABELA, $this->dados['id']);
+        return $this->UsuariosRepository->getPostgres()->getOneByKey(self::TABELA, $this->dados['id']);
     }
 
     private function listar(){
-        $this->UsuariosRepository->getPostgres()->getAll(self::TABELA);
+        return $this->UsuariosRepository->getPostgres()->getAll(self::TABELA);
     }
 }
