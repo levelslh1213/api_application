@@ -32,12 +32,11 @@ class UsuariosService
         if($return == null){
             throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_GENERICO);
         }
-
         return $return;
     }
 
     private function getOneByKey(){
-        echo 'getOneByKey function';
+        $this->UsuariosRepository->getPostgres()->getOneByKey(self::TABELA, $this->dados['id']);
     }
 
     private function listar(){

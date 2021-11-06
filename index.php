@@ -9,9 +9,9 @@ require_once 'paramns.php';
 try {
     $requestValidator = new RequestValidator(RotasUtil::getRotas());
     $retorno = $requestValidator->processarRequest();
-    
+
     $JsonUtil = new JsonUtil();
-    $JsonUtil->
+    $JsonUtil->processarArrayParaRetornar($retorno);
     
 } catch (Exception $exception) {
     echo json_encode([
