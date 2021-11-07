@@ -5,9 +5,9 @@ namespace Util;
 abstract class ConstantesGenericasUtil
 {
     /* REQUESTS */
-    public const TIPO_REQUEST = ['GET', 'POST', 'DELETE', 'PUT'];
+    public const TIPO_REQUEST = ['GET', 'POST', 'DELETE'];
     public const TIPO_GET = ['USUARIOS'];
-    public const TIPO_POST = ['USUARIOS'];
+    public const TIPO_POST = ['USUARIOS', 'HOST'];
     public const TIPO_DELETE = ['USUARIOS'];
     public const TIPO_PUT = ['USUARIOS'];
 
@@ -20,6 +20,7 @@ abstract class ConstantesGenericasUtil
     public const MSG_ERRO_TOKEN_VAZIO = '� necess�rio informar um Token!';
     public const MSG_ERRO_TOKEN_NAO_AUTORIZADO = 'Token n�o autorizado!';
     public const MSG_ERR0_JSON_VAZIO = 'O Corpo da requisi��o n�o pode ser vazio!';
+    public const MSG_ERRO_HOST_NAO_AUTORIZADO = 'Host n�o autorizado!';
 
     /* SUCESSO */
     public const MSG_DELETADO_SUCESSO = 'Registro deletado com Sucesso!';

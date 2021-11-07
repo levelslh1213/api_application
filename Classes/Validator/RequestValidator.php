@@ -5,6 +5,7 @@ use Util\ConstantesGenericasUtil;
 use Util\JsonUtil;
 use InvalidArgumentException;
 use Repository\TokensAutorizadosRepository;
+use Repository\HostRepository;
 use Service\UsuariosService;
 
 class RequestValidator
@@ -12,6 +13,7 @@ class RequestValidator
     private array $request;
     private array $dadosRequest;
     private object $TokensAutorizadosRepository;
+    private object $HostRepository;
 
     private const GET = 'GET';
     private const DELETE = 'DELETE';
@@ -21,6 +23,7 @@ class RequestValidator
     {
         $this->request = $request;
         $this->TokensAutorizadosRepository = new TokensAutorizadosRepository();
+        $this->HostRepository = new HostRepository();
     }
 
     /**
@@ -41,6 +44,9 @@ class RequestValidator
             $this->dadosRequest = JsonUtil::tratarCorpoRequisicaoJson();
         }
         //na API final criar uma classe para validar os tokens e validar os hosts, também tratar o Json e destinos
+        if($this->request['recurso'] != 'PostAddHost'){
+            $this->HostRepository->validateHost($this->request['server_name'], $this->request['server_port']);
+        }
         $this->TokensAutorizadosRepository->validarToken(getallheaders()['Authorization']);
         $metodo =$this->request['metodo'];
         return $this->$metodo();
@@ -60,4 +66,7 @@ class RequestValidator
         }
         return $retorno;
     }
+
+
+
 }

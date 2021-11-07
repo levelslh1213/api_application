@@ -36,9 +36,9 @@ class TokensAutorizadosRepository
              * Na aplicação final será criado o método de adicionar o host e ao adicionar o host teremos um 
              * token específico para ele e vamos validar o token e o host
              */
-        }else {
-            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_TOKEN_VAZIO);
-        }
+            }else {
+                throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_TOKEN_VAZIO);
+            }
 
     }
 

@@ -3,6 +3,7 @@ namespace Util;
 
 use JsonException as JsonExceptionAlias;
 use Util\ConstantesGenericasUtil;
+use InvalidArgumentException;
 
 class  JsonUtil
 {
@@ -10,9 +11,9 @@ class  JsonUtil
         $dados = [];
         $dados[ConstantesGenericasUtil::TIPO] = ConstantesGenericasUtil::TIPO_ERRO;
 
-        if((is_array($retorno) && count($retorno) > 0) || strlen($retorno) > 10){
-            $dados = [ConstantesGenericasUtil::TIPO] = ConstantesGenericasUtil::TIPO_SUCESSO;
-            $dados = [ConstantesGenericasUtil::RESPOSTA] = $retorno;
+        if((is_array($retorno) && count($retorno) > 0) || (strlen($retorno) > 10)){
+            $dados[ConstantesGenericasUtil::TIPO] = ConstantesGenericasUtil::TIPO_SUCESSO;
+            $dados[ConstantesGenericasUtil::RESPOSTA] = $retorno;
         }
         $this->retornarJson($dados);
     }
@@ -30,9 +31,9 @@ class  JsonUtil
             $postJson = json_decode(file_get_contents('php://input'), true);
 
         } catch (JsonExceptionAlias $exception) {
-            throw new InvalidArgumentException( ConstantesGenericasUtil::MSG_ERRO_JSON_VAZIO);
+            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_JSON_VAZIO);
         }
-        if(is_array($postJson) $$ count($postJson >0 )){
+        if(is_array($postJson) && count($postJson) > 0){
             return $postJson;
         }
     }
