@@ -7,17 +7,19 @@ use InvalidArgumentException;
 use Repository\TokensAutorizadosRepository;
 use Repository\HostRepository;
 use Service\UsuariosService;
+use Service\HostService;
 
 class RequestValidator
 {
     private array $request;
-    private array $dadosRequest;
+    public array $dadosRequest;
     private object $TokensAutorizadosRepository;
     private object $HostRepository;
 
     private const GET = 'GET';
     private const DELETE = 'DELETE';
     private const USUARIOS = 'USUARIOS';
+    private const HOST = 'HOST';
 
     public function __construct($request)
     {
@@ -41,11 +43,11 @@ class RequestValidator
     
     private function direcionarRequest(){
         if($this->request['metodo'] !== self::GET && $this->request['metodo'] !== self::DELETE){
-            $this->dadosRequest = JsonUtil::tratarCorpoRequisicaoJson();
+            $this->$dadosRequest = JsonUtil::tratarCorpoRequisicaoJson();
         }
         //na API final criar uma classe para validar os tokens e validar os hosts, também tratar o Json e destinos
         if($this->request['recurso'] != 'PostAddHost'){
-            $this->HostRepository->validateHost($this->request['server_name'], $this->request['server_port']);
+            $this->HostRepository->validateHost($this->request['host']);
         }
         $this->TokensAutorizadosRepository->validarToken(getallheaders()['Authorization']);
         $metodo =$this->request['metodo'];
@@ -53,20 +55,34 @@ class RequestValidator
     }
 
     private function get(){
-        $retorno = utf8_encode(ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA);
+        $return = utf8_encode(ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA);
         if(in_array($this->request['rota'], ConstantesGenericasUtil::TIPO_GET, true)){
             switch($this->request['rota']){
                 case self::USUARIOS:
                     $UsuariosService = new UsuariosService($this->request);
-                    $retorno = $UsuariosService->validarGet();
+                    $return = $UsuariosService->validarGet();
                 break;
                 default:
                     throw InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
             }
         }
-        return $retorno;
+        return $return;
     }
 
-
+    public function post(){
+        $return = utf8_encode(ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA);
+        
+        if(in_array($this->request['rota'], ConstantesGenericasUtil::TIPO_POST, true)){
+            switch($this->request['rota']){
+                case self::HOST:
+                    $HostService = new HostService($this->request, $this->$dadosRequest);
+                    $return = $HostService->validarPost();
+                break;
+                default:
+                    throw InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
+            }
+        }
+        return $return;
+    }
 
 }

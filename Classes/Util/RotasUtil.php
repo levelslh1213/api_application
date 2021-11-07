@@ -12,8 +12,7 @@ class RotasUtil
         $request['recurso'] = $urls[1] ?? null;
         $request['id'] = $urls[2] ?? null;
         $request['metodo'] = $_SERVER['REQUEST_METHOD'];
-        $request['server_name'] = $_SERVER['SERVER_NAME'];
-        $request['server_port'] = $_SERVER['SERVER_PORT'];
+        $request['host'] = $_SERVER['HTTP_HOST'];
 
         return $request;
 
