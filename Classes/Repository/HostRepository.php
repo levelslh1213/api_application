@@ -4,10 +4,12 @@ namespace Repository;
 use DB\Pgsql;
 use Util\ConstantesGenericasUtil;
 use InvalidArgumentException;
+use Repository\TokensAutorizadosRepository;
 
 class HostRepository
 {
     private object $postgres;
+    private object $TokensAutorizadosRepository;
     public const TABELA = "hosts";
 
     public function getPostgres(){
@@ -16,6 +18,7 @@ class HostRepository
 
     public function __construct(){
         $this->postgres = new Pgsql();
+        $this->TokensAutorizadosRepository = new TokensAutorizadosRepository();
     }
 
     public function validateHost($hostName){
@@ -45,11 +48,15 @@ class HostRepository
         if($stmt->rowCount() > 0){
             $this->getPostgres()->getDb()->commit();
             $idInserido = $this->getPostgres()->getDb()->lastInsertId();
-            return ['id_inserido' => $idInserido];
+            return ['id_inserido' => $idInserido, 'token' => $this->getNewtoken($request, $idInserido)];
         }
         else{
             $this->getPostgres()->getDb()->rollback();
             throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_INSERCAO);
         }
+    }
+
+    public function getNewToken($request, $idInserido){
+        return $this->TokensAutorizadosRepository->generateToken($request, $idInserido);
     }
 }

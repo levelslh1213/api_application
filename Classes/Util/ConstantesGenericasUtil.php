@@ -22,6 +22,7 @@ abstract class ConstantesGenericasUtil
     public const MSG_ERR0_JSON_VAZIO = 'O Corpo da requisi��o n�o pode ser vazio!';
     public const MSG_ERRO_HOST_NAO_AUTORIZADO = 'Host n�o autorizado!';
     public const MSG_ERRO_INSERCAO = 'Erro ao inserir registro';
+    public const MSG_ERRO_TOKEN_GENERICO = 'Erro ao gerar token!';
 
     /* SUCESSO */
     public const MSG_DELETADO_SUCESSO = 'Registro deletado com Sucesso!';

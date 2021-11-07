@@ -41,7 +41,34 @@ class TokensAutorizadosRepository
             }
 
     }
+    public function generateToken($request, $idInserido){
+        $token = md5($request['host']);
+        if($this->authorizeToken($token, $idInserido) > 0){
+            return $token;
+        }
+        else{
+            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_TOKEN_GENERICO);
+        }
+    }
 
+    private function authorizeToken($token, $idInserido){
+        $consulta = 'INSERT INTO ' . self::TABELA . '(token, status, id_host) values (:token, :status, :id_host)';
+        $this->getPostgres()->getDb()->beginTransaction();
+        $stmt = $this->getPostgres()->getDb()->prepare($consulta);
+        $stmt->bindValue(':token', $token);
+        $stmt->bindValue(':status', ConstantesGenericasUtil::SIM);
+        $stmt->bindValue(':id_host', $idInserido);
+        $stmt->execute();
+        if($stmt->rowCount() > 0){
+            $this->getPostgres()->getDb()->commit();
+            $idInserido = $this->getPostgres()->getDb()->lastInsertId();
+            return $idInserido;
+        }
+        else{
+            $this->getPostgres()->getDb()->rollback();
+            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_TOKEN_GENERICO);
+        }
+    }
 
 
 }
