@@ -83,6 +83,7 @@ class RequestValidator
                 case self::EMAIL:
                     $EmailService = new EmailService($this->request, $this->dadosRequest);
                     $return = $EmailService->validarPost();
+                break;
                 default:
                     throw InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
             }
