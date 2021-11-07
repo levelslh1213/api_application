@@ -7,7 +7,7 @@ abstract class ConstantesGenericasUtil
     /* REQUESTS */
     public const TIPO_REQUEST = ['GET', 'POST', 'DELETE'];
     public const TIPO_GET = ['USUARIOS'];
-    public const TIPO_POST = ['USUARIOS', 'HOST'];
+    public const TIPO_POST = ['USUARIOS', 'HOST', 'EMAIL'];
     public const TIPO_DELETE = ['USUARIOS', 'HOST'];
     public const TIPO_PUT = ['USUARIOS'];
 
