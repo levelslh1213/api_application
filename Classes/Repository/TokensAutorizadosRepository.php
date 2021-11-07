@@ -70,5 +70,24 @@ class TokensAutorizadosRepository
         }
     }
 
+    public function deleteToken($idHost){
+        $tokenId = $this->getTokenId($idHost);
+        return $this->postgres->delete(self::TABELA, $tokenId['id']);
+    }
 
+    private function getTokenId($idHost){
+        if ($idHost) {
+            $consulta = 'SELECT id FROM ' . self::TABELA . ' WHERE id_host = :id';
+            $stmt = $this->getPostgres()->getDb()->prepare($consulta);
+            $stmt->bindParam(':id', $idHost);
+            $stmt->execute();
+            $totalRegistros = $stmt->rowCount();
+            if ($totalRegistros === 1) {
+                return $stmt->fetch($this->getPostgres()->getDb()::FETCH_ASSOC);
+            }
+            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_SEM_RETORNO);
+        }
+
+        throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_ID_OBRIGATORIO);
+    }
 }

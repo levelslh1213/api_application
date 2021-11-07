@@ -15,6 +15,9 @@ class HostRepository
     public function getPostgres(){
         return $this->postgres;
     }
+    public function getTokensAutorizadosRepository(){
+        return $this->TokensAutorizadosRepository;
+    }
 
     public function __construct(){
         $this->postgres = new Pgsql();

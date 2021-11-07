@@ -48,8 +48,8 @@ class RequestValidator
         //na API final criar uma classe para validar os tokens e validar os hosts, também tratar o Json e destinos
         if($this->request['recurso'] != 'PostAddHost'){
             $this->HostRepository->validateHost($this->request['host']);
+            $this->TokensAutorizadosRepository->validarToken(getallheaders()['Authorization']);
         }
-        $this->TokensAutorizadosRepository->validarToken(getallheaders()['Authorization']);
         $metodo =$this->request['metodo'];
         return $this->$metodo();
     }
@@ -75,8 +75,23 @@ class RequestValidator
         if(in_array($this->request['rota'], ConstantesGenericasUtil::TIPO_POST, true)){
             switch($this->request['rota']){
                 case self::HOST:
-                    $HostService = new HostService($this->request, $this->$dadosRequest);
+                    $HostService = new HostService($this->request);
                     $return = $HostService->validarPost();
+                break;
+                default:
+                    throw InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
+            }
+        }
+        return $return;
+    }
+
+    private function delete(){
+        $return = utf8_encode(ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA);
+        if(in_array($this->request['rota'], ConstantesGenericasUtil::TIPO_DELETE, true)){
+            switch($this->request['rota']){
+                case self::HOST:
+                    $HostService = new HostService($this->request);
+                    $return = $HostService->validarDelete();
                 break;
                 default:
                     throw InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);

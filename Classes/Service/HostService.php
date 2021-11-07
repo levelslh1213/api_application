@@ -8,17 +8,16 @@ use Repository\HostRepository;
 
 class HostService
 {
-    private const TABELA = 'host';
+    private const TABELA = 'hosts';
     private const RECURSOS_POST = ['PostAddHost'];
+    private const RECURSOS_DELETE = ['DeleteHost'];
 
     private array $request;
-    public $dadosRequest = [];
 
     private object $HostRepository;
 
-    public function __construct($request = [], $dadosRequest = []){
+    public function __construct($request = []){
         $this->request = $request;
-        $this->dadosRequest = $dadosRequest;
         $this->HostRepository = new HostRepository();
     }
 
@@ -37,8 +36,30 @@ class HostService
         }
         return $return;
     }
+    
+    public function validarDelete(){
+        $return = null;
+        $recurso = $this->request['recurso'];
+        if(in_array($recurso, self::RECURSOS_DELETE, true)){
+            $return = $this->$recurso();
+        }
+        else{
+            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);
+        }
+
+        if($return == null){
+            throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_GENERICO);
+        }
+        return $return;
+    }
 
     private function PostAddHost(){
         return $this->HostRepository->insertHost($this->request);
+    }
+
+    private function DeleteHost(){
+        $this->HostRepository->getTokensAutorizadosRepository()->deleteToken($this->request['id']);
+        $return = $this->HostRepository->getPostgres()->delete(self::TABELA, $this->request['id']);
+        return $return;
     }
 }
