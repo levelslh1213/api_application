@@ -6,10 +6,9 @@ abstract class ConstantesGenericasUtil
 {
     /* REQUESTS */
     public const TIPO_REQUEST = ['GET', 'POST', 'DELETE'];
-    public const TIPO_GET = ['USUARIOS'];
+    public const TIPO_GET = ['HOST'];
     public const TIPO_POST = ['USUARIOS', 'HOST', 'EMAIL'];
     public const TIPO_DELETE = ['USUARIOS', 'HOST'];
-    public const TIPO_PUT = ['USUARIOS'];
 
     /* ERROS */
     public const MSG_ERRO_TIPO_ROTA = 'Rota n�o permitida!';
@@ -28,7 +27,7 @@ abstract class ConstantesGenericasUtil
     public const MSG_DELETADO_SUCESSO = 'Registro deletado com Sucesso!';
     public const MSG_ATUALIZADO_SUCESSO = 'Registro atualizado com Sucesso!';
 
-    /* RECURSO USUARIOS */
+    /* RECURSO HOSTS */
     public const MSG_ERRO_ID_OBRIGATORIO = 'ID � obrigat�rio!';
     public const MSG_ERRO_LOGIN_EXISTENTE = 'Login j� existente!';
     public const MSG_ERRO_LOGIN_SENHA_OBRIGATORIO = 'Login e Senha s�o obrigat�rios!';

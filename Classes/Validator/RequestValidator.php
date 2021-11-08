@@ -19,7 +19,6 @@ class RequestValidator
 
     private const GET = 'GET';
     private const DELETE = 'DELETE';
-    private const USUARIOS = 'USUARIOS';
     private const HOST = 'HOST';
     private const EMAIL = 'EMAIL';
 
@@ -60,9 +59,9 @@ class RequestValidator
         $return = utf8_encode(ConstantesGenericasUtil::MSG_ERRO_TIPO_ROTA);
         if(in_array($this->request['rota'], ConstantesGenericasUtil::TIPO_GET, true)){
             switch($this->request['rota']){
-                case self::USUARIOS:
-                    $UsuariosService = new UsuariosService($this->request);
-                    $return = $UsuariosService->validarGet();
+                case self::HOST:
+                    $HostService = new HostService($this->request);
+                    $return = $HostService->validarGet();
                 break;
                 default:
                     throw InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_RECURSO_INEXISTENTE);

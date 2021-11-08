@@ -14,6 +14,7 @@ class EmailService
     private const APIKEY = '1a2f6ea2865fd21ce81ac1f288a5adbd-10eedde5-6fa66aff';
     private const APIDOMAIN = 'https://api.mailgun.net/v3/sandbox7f7630fe63ff408299bf1098a312c4e5.mailgun.org';
     private const MYAPIDOMAIN = 'sandbox7f7630fe63ff408299bf1098a312c4e5.mailgun.org';
+    private const EMAILSENTNAME = 'no_reply@apiphp.com';
 
     private array $request;
     private array $dadosRequest;
@@ -52,7 +53,7 @@ class EmailService
         
         for ($i=0; $i < count($destinos) ; $i++) { 
             $params[$i] = array(
-                'from'    => 'no_reply@apiphp.com',
+                'from'    => self::EMAILSENTNAME,
                 'to'      => $destinos[$i],
                 'subject' => 'Hello',
                 'html' => $htmlCode
