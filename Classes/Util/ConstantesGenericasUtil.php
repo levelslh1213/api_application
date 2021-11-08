@@ -7,8 +7,8 @@ abstract class ConstantesGenericasUtil
     /* REQUESTS */
     public const TIPO_REQUEST = ['GET', 'POST', 'DELETE'];
     public const TIPO_GET = ['HOST'];
-    public const TIPO_POST = ['USUARIOS', 'HOST', 'EMAIL'];
-    public const TIPO_DELETE = ['USUARIOS', 'HOST'];
+    public const TIPO_POST = ['HOST', 'EMAIL'];
+    public const TIPO_DELETE = ['HOST'];
 
     /* ERROS */
     public const MSG_ERRO_TIPO_ROTA = 'Rota n�o permitida!';
