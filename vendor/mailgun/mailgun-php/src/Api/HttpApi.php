@@ -70,10 +70,10 @@ abstract class HttpApi
         }
 
         if (!in_array($response->getStatusCode(), [200, 201, 202], true)) {
-            $this->handleErrors($response);
+            return ['message' => $this->handleErrors($response), 'isError' => 1];
         }
 
-        return $this->hydrator->hydrate($response, $class);
+        return ['message' => $this->hydrator->hydrate($response, $class), 'isError' => 0];
     }
 
     /**
@@ -86,25 +86,25 @@ abstract class HttpApi
         $statusCode = $response->getStatusCode();
         switch ($statusCode) {
             case 400:
-                throw HttpClientException::badRequest($response);
+                return HttpClientException::badRequest($response);
             case 401:
-                throw HttpClientException::unauthorized($response);
+                return HttpClientException::unauthorized($response);
             case 402:
-                throw HttpClientException::requestFailed($response);
+                return HttpClientException::requestFailed($response);
             case 403:
-                throw HttpClientException::forbidden($response);
+                return HttpClientException::forbidden($response);
             case 404:
-                throw HttpClientException::notFound($response);
+                return HttpClientException::notFound($response);
             case 409:
-                throw HttpClientException::conflict($response);
+                return HttpClientException::conflict($response);
             case 413:
-                throw HttpClientException::payloadTooLarge($response);
+                return HttpClientException::payloadTooLarge($response);
             case 429:
-                throw HttpClientException::tooManyRequests($response);
+                return HttpClientException::tooManyRequests($response);
             case 500 <= $statusCode:
-                throw HttpServerException::serverError($statusCode);
+                return HttpServerException::serverError($statusCode);
             default:
-                throw new UnknownErrorException();
+                return new UnknownErrorException();
         }
     }
 

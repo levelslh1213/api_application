@@ -13,7 +13,7 @@ use Service\EmailService;
 class RequestValidator
 {
     private array $request;
-    private array $dadosRequest;
+    private $dadosRequest;
     private object $TokensAutorizadosRepository;
     private object $HostRepository;
 

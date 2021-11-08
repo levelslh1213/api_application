@@ -13,6 +13,7 @@ class EmailService
     private const RECURSOS_POST = ['PostSendEmails'];
     private const APIKEY = '1a2f6ea2865fd21ce81ac1f288a5adbd-10eedde5-6fa66aff';
     private const APIDOMAIN = 'https://api.mailgun.net/v3/sandbox7f7630fe63ff408299bf1098a312c4e5.mailgun.org';
+    private const MYAPIDOMAIN = 'sandbox7f7630fe63ff408299bf1098a312c4e5.mailgun.org';
 
     private array $request;
     private array $dadosRequest;
@@ -43,21 +44,32 @@ class EmailService
     }
 
     private function PostSendEmails(){
+        $success = [];
+        $errors = [];
         $htmlCode = $this->dadosRequest['html'];
         $destinos = explode('/', trim($this->dadosRequest['destinos'], '/'));
-
-        $mgClient = Mailgun::create('1a2f6ea2865fd21ce81ac1f288a5adbd-10eedde5-6fa66aff', 'https://api.mailgun.net/v3/sandbox7f7630fe63ff408299bf1098a312c4e5.mailgun.org');
-        //$mailGun = new Mailgun($mgClient, )
-        $domain = "sandbox7f7630fe63ff408299bf1098a312c4e5.mailgun.org";
-        $params = array(
-        'from'    => 'pauloleospaes@gmail.com'  ,
-        'to'      => 'pauloleonardopaes@gmail.com',
-        'subject' => 'Hello',
-        'text'    => 'Testing some Mailgun awesomness!'
+        $mgClient = Mailgun::create(self::APIKEY, self::APIDOMAIN);
+        
+        for ($i=0; $i < count($destinos) ; $i++) { 
+            $params[$i] = array(
+                'from'    => 'no_reply@apiphp.com',
+                'to'      => $destinos[$i],
+                'subject' => 'Hello',
+                'html' => $htmlCode
+            );
+            $execute = $mgClient->messages()->send(self::MYAPIDOMAIN, $params[$i]);
+            if($execute['isError'] != 0){
+                $errors[$i] = $destinos[$i];    
+            }
+            else{
+                $success[$i] = $destinos[$i];
+            }
+        }
+        $result  = array(
+            'Sucessos:' => $success ,
+            'Erros:' =>$errors
         );
-        $result = $mgClient->messages()->send($domain, $params);
-        echo'<pre>';
-        var_dump($result);exit;
+        return $result;
 
     }
 }
